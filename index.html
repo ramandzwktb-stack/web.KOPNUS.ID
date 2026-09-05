@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kopi Nusantara — Dashboard Pemilik</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app-shell">
+
+  <!-- ============================== SIDEBAR ============================== -->
+  <aside class="sidebar">
+    <div class="sidebar__brand">
+      <div class="sidebar__brand-mark">Kopi Nusantara</div>
+      <div class="sidebar__brand-tag">Panel Pemilik &middot; Multi-Cabang</div>
+    </div>
+
+    <nav class="sidebar__nav" id="sidebar-nav">
+      <button class="nav-item active" data-page="dashboard">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        <span>Dashboard</span>
+      </button>
+      <button class="nav-item" data-page="income">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17l5-5 4 4 8-9"/><path d="M14 7h6v6"/></svg>
+        <span>Pemasukan</span>
+      </button>
+      <button class="nav-item" data-page="transactions">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        <span>Transaksi</span>
+      </button>
+      <button class="nav-item" data-page="stock">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+        <span>Stok</span>
+      </button>
+      <button class="nav-item" data-page="stock-add">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 3v6"/><path d="M9.5 5.5h5"/></svg>
+        <span>Penambahan Stok</span>
+      </button>
+      <button class="nav-item" data-page="top-menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21V10M11 21V4M18 21v-7"/></svg>
+        <span>Menu Terlaris</span>
+      </button>
+      <button class="nav-item" data-page="branches">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg>
+        <span>Cabang</span>
+      </button>
+    </nav>
+
+    <div class="sidebar__footer">Prototype &middot; Data demo</div>
+  </aside>
+
+  <!-- ================================ MAIN ================================= -->
+  <div class="main">
+
+    <!-- ------------------------------ TOPBAR -------------------------------- -->
+    <header class="topbar">
+      <div>
+        <div class="topbar__title">Kopi Nusantara</div>
+        <div class="topbar__subtitle" id="topbar-subtitle">Memantau 4 cabang</div>
+      </div>
+      <div class="topbar__right">
+        <select class="branch-select" id="global-branch-select" aria-label="Pilih cabang"></select>
+        <div class="owner-chip">
+          <div class="owner-chip__avatar">RP</div>
+          <div>
+            <div class="owner-chip__name">Rizky Pratama</div>
+            <div class="owner-chip__role">Pemilik / Pengelola</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================== DASHBOARD ============================== -->
+    <section class="page active" id="page-dashboard">
+      <div class="page-head">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Ringkasan kondisi Kopi Nusantara secara keseluruhan.</p>
+        </div>
+        <div class="controls">
+          <div class="segmented" data-period-group="dashboard">
+            <button data-period="today">Hari ini</button>
+            <button data-period="week">Minggu ini</button>
+            <button class="active" data-period="month">Bulan ini</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-grid" id="dash-stat-grid"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card__head">
+            <h2>Tren Pemasukan</h2>
+            <span class="hint" id="dash-income-hint"></span>
+          </div>
+          <div class="chart-wrap" id="dash-income-chart"></div>
+        </div>
+        <div class="card">
+          <div class="card__head">
+            <h2>Menu Paling Laku</h2>
+            <span class="hint">Top 5</span>
+          </div>
+          <div class="top-menu-list" id="dash-top-menu"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================== PEMASUKAN ============================== -->
+    <section class="page" id="page-income">
+      <div class="page-head">
+        <div>
+          <h1>Pemasukan</h1>
+          <p>Pemasukan kedai berdasarkan cabang dan periode.</p>
+        </div>
+        <div class="controls">
+          <div class="segmented" data-period-group="income">
+            <button data-period="today">Hari ini</button>
+            <button data-period="week">Minggu ini</button>
+            <button class="active" data-period="month">Bulan ini</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-grid" style="grid-template-columns:1fr 1fr 1fr;" id="income-stat-grid"></div>
+
+      <div class="card">
+        <div class="card__head">
+          <h2>Grafik Pemasukan</h2>
+          <span class="hint" id="income-chart-hint"></span>
+        </div>
+        <div class="chart-wrap" id="income-chart"></div>
+      </div>
+    </section>
+
+    <!-- ============================== TRANSAKSI ============================== -->
+    <section class="page" id="page-transactions">
+      <div class="page-head">
+        <div>
+          <h1>Transaksi</h1>
+          <p>Riwayat transaksi yang dicatat melalui sistem POS.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <h2>Daftar Transaksi</h2>
+          <span class="hint" id="tx-count-hint"></span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>No. Transaksi</th>
+                <th>Tanggal &amp; Waktu</th>
+                <th>Cabang</th>
+                <th>Menu</th>
+                <th class="num">Jumlah</th>
+                <th class="num">Total</th>
+              </tr>
+            </thead>
+            <tbody id="tx-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================ STOK ================================= -->
+    <section class="page" id="page-stock">
+      <div class="page-head">
+        <div>
+          <h1>Stok Bahan Baku</h1>
+          <p>Kondisi stok bahan baku pada setiap cabang.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <h2>Stok Tersedia</h2>
+          <span class="hint">Diperbarui melalui timbangan digital</span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama Bahan</th>
+                <th class="num">Jumlah Stok</th>
+                <th>Satuan</th>
+                <th>Cabang</th>
+                <th>Kondisi</th>
+              </tr>
+            </thead>
+            <tbody id="stock-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================== PENAMBAHAN STOK ============================ -->
+    <section class="page" id="page-stock-add">
+      <div class="page-head">
+        <div>
+          <h1>Penambahan Stok</h1>
+          <p>Riwayat bahan baku yang ditambahkan pada setiap cabang.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <h2>Riwayat Penambahan</h2>
+          <span class="hint" id="stock-add-hint"></span>
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Nama Bahan</th>
+                <th class="num">Jumlah Ditambahkan</th>
+                <th>Satuan</th>
+                <th>Cabang</th>
+                <th>Tanggal</th>
+              </tr>
+            </thead>
+            <tbody id="stock-add-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= MENU TERLARIS ============================ -->
+    <section class="page" id="page-top-menu">
+      <div class="page-head">
+        <div>
+          <h1>Menu Terlaris</h1>
+          <p>Menu paling favorit berdasarkan jumlah terjual.</p>
+        </div>
+        <div class="controls">
+          <div class="segmented" data-period-group="top-menu">
+            <button data-period="today">Hari ini</button>
+            <button data-period="week">Minggu ini</button>
+            <button class="active" data-period="month">Bulan ini</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card__head">
+          <h2>Peringkat Penjualan Menu</h2>
+          <span class="hint" id="top-menu-hint"></span>
+        </div>
+        <div class="chart-wrap" id="top-menu-chart"></div>
+      </div>
+    </section>
+
+    <!-- ================================ CABANG ================================ -->
+    <section class="page" id="page-branches">
+      <div class="page-head">
+        <div>
+          <h1>Cabang</h1>
+          <p>Perbandingan kondisi seluruh cabang Kopi Nusantara bulan ini.</p>
+        </div>
+      </div>
+
+      <div class="branch-grid" id="branch-grid"></div>
+    </section>
+
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
